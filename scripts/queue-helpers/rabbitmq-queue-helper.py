@@ -128,7 +128,7 @@ def create_connection(host, port, username, password, virtual_host):
         test_channel.close()
         
         logger.info(f"Connection established in {connection_time:.2f}s")
-        print(f"✓ Connected successfully to {host}")
+        print(f"Connected successfully to {host}")
         
         return connection
         
@@ -307,7 +307,7 @@ def _append_messages_to_file(messages_data, filename, file_format):
                 f.write(json.dumps(message) + '\n')
 
 def consume_messages(connection, queue_name, batch_size=10000, output_format='1'):
-    """Consume messages from queue with comprehensive timeout protection"""
+    """Consume messages from queue with timeout protection"""
     logger = logging.getLogger(__name__)
     
     logger.info("=== Message Consumption Operation ===")
@@ -339,7 +339,7 @@ def consume_messages(connection, queue_name, batch_size=10000, output_format='1'
     files_initialized = {fmt: False for _, fmt in output_files}
     
     print(f"\nConsuming messages from queue '{queue_name}' (batch size: {batch_size})...")
-    print("📝 Note: Message bodies will be base64 encoded in output files")
+    print("  Note: Message bodies will be base64 encoded in output files")
     print("   Output format: message_id, date, message_body (base64), bytes")
     print("   To decode: echo '<base64_string>' | base64 -d")
     
@@ -475,7 +475,7 @@ def consume_messages(connection, queue_name, batch_size=10000, output_format='1'
         logger.info(f"Total consumed: {total_consumed} messages to {files_str}")
         print(f"\n\n✓ Consumed {total_consumed} total messages to: {files_str}")
         print(f"✓ All messages removed from queue")
-        print(f"📝 Message bodies are base64 encoded - decode using: base64 -d <filename> (Linux/Mac)")
+        print(f"Message bodies are base64 encoded - decode using: base64 -d <filename> (Linux/Mac)")
     
     return total_consumed
 
@@ -554,12 +554,6 @@ def main():
     parser = argparse.ArgumentParser(
         description='Manage RabbitMQ queues via AMQP protocol (Delete, Purge, or Consume)',
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  %(prog)s --host broker.mq.us-west-2.amazonaws.com --username admin --vhost / --queue my_queue
-  %(prog)s --host broker.mq.us-west-2.amazonaws.com --username admin --vhost /prod --queue my_queue --if-unused
-  %(prog)s --host broker.mq.us-west-2.amazonaws.com --username admin --vhost /dev --queue my_queue --confirm
-        """
     )
     
     # Required parameters
@@ -649,18 +643,18 @@ Examples:
             if message_count > 0:
                 print(f"✓ {warning_message}")
         
-        print(f"\n📋 Detailed log file created: {log_filename}")
+        print(f"\nDetailed log file created: {log_filename}")
         
     except KeyboardInterrupt:
         logger.error("Script interrupted by user (Ctrl+C)")
         print(f"\n\n✗ Script interrupted by user")
-        print(f"📋 Log file available for debugging: {log_filename}")
+        print(f"Log file available for debugging: {log_filename}")
         sys.exit(1)
     except Exception as e:
         logger.error(f"Script execution failed: {e}")
         logger.error(f"Traceback: {traceback.format_exc()}")
         print(f"\n✗ Failed to execute operation: {e}")
-        print(f"📋 Check log file for detailed error information: {log_filename}")
+        print(f"Check log file for detailed error information: {log_filename}")
         sys.exit(1)
 
 if __name__ == "__main__":
